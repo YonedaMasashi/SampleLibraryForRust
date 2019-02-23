@@ -1,0 +1,30 @@
+/'
+プレビューは Alt + D
+'/
+
+@startuml erdiagram
+entity "User" {
+    + user_id [PK] : INTEGER
+    + name : VARCHAR
+    + mail_address : TEXT
+}
+
+entity "Book" {
+    + book_id [PK] : INTEGER
+    + name : VARCHAR
+    + author : TEXT
+    + genru : TEXT
+}
+
+entity "Borrow" {
+    + borrow_id [PK] : INTEGER
+    + borrow_date : TEXT
+    + refund_date : TEXT
+    ==
+    # user_id [FK(User.user_id)]
+    # book_id [FK(Book.book_id)]
+}
+
+User --o{ Borrow
+Book --o{ Borrow
+@enduml

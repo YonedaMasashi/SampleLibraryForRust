@@ -12,4 +12,8 @@ impl User {
     pub fn to_string(&self) -> String {
         format!("{},{},{}", self.user_id, self.name, self.mail_address)
     }
+
+    pub fn get_user_name(&self) -> String {
+        self.name.to_string()
+    }
 }

@@ -14,16 +14,22 @@ use crate::service::db_connection::establish_connection;
 use chrono::{Local};
 
 fn main() {
+    domain_object();
+    db_process();
+}
 
+fn domain_object() {
     println!("{}", "----- Console -----");
     let user = domain::user::User::new(1, "Masashi".to_string(), "hoge@hoge.com".to_string());
     let book = domain::book::Book::new(1, "ProgInRust".to_string(), "Jim Blandy".to_string(), "programming".to_string());
-    let borrow = domain::borrow::Borrow::new(1, 1, Local::now(), Local::now());
+    let borrow = domain::borrow::Borrow::new(&user, &book, Local::now(), Local::now());
 
     println!("{}", user.to_string());
     println!("{}", book.to_string());
     println!("{}", borrow.to_string());
+}
 
+fn db_process() {
     println!("{}", "----- DB -----");
     let connection = establish_connection();
 
@@ -70,9 +76,11 @@ fn main() {
         .execute(&connection)
         .expect("Error Borrow");
 
-    // 取得してみる
+    // DB のデータを取得してみる
     {
-        let userGet = User.find(1).first::<entity::user::UserEntity>(&connection).expect("Error loading user");
+        let userGet = User.find(1)
+            .first::<entity::user::UserEntity>(&connection)
+            .expect("Error loading user");
         println!("Get User {}", userGet.name);
 
         let borrowGet = entity::borrow::BorrowEntity::belonging_to(&userGet)

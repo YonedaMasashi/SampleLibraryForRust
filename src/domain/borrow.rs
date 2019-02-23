@@ -1,24 +1,27 @@
 use chrono::{DateTime, Local};
 
-pub struct Borrow {
-    user_id: u32,
-    book_id: u32,
+use crate::domain::user::User;
+use crate::domain::book::Book;
+
+pub struct Borrow<'a, 'b> {
+    user: &'a User,
+    book: &'b Book,
     borrow_date: DateTime<Local>,
     refund_date: DateTime<Local>
 }
 
-impl Borrow {
-    pub fn new(user_id:u32, book_id:u32, borrow_date:DateTime<Local>, refund_date:DateTime<Local>)
-        -> Borrow {
+impl<'a, 'b> Borrow<'a, 'b> {
+    pub fn new(user:&'a User, book:&'b Book, borrow_date:DateTime<Local>, refund_date:DateTime<Local>)
+        -> Borrow<'a, 'b> {
         Borrow {
-            user_id,
-            book_id,
+            user,
+            book,
             borrow_date,
             refund_date
         }
     }
 
     pub fn to_string(&self) -> String {
-        format!("{},{},{},{}", self.user_id, self.book_id, self.borrow_date.to_string(), self.refund_date.to_string())
+        format!("{},{},{},{}", self.user.get_user_name(), self.book.get_book_name(), self.borrow_date.to_string(), self.refund_date.to_string())
     }
 }
