@@ -1,0 +1,10 @@
+[package]
+name = "sample_library"
+version = "0.1.0"
+authors = ["YonedaMasashi <pillows916@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+chrono = "0.4.6"
+diesel = { version = "1.3.0", features = ["sqlite"] }
+dotenv = "0.10.0"
